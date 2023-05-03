@@ -1,0 +1,643 @@
+{% block content %}
+    <div id="load"></div>
+    <div id="wrapper-content">
+        <div id="page-wrapper">
+            <div class="main-content">
+                <div class="content">
+                    <div class="section banner" id="fondo">
+                        <div class="container">
+                            <div class="edu-feature-wrapper">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <img src="images/portada.jpg" class="computer-image" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section section-padding choose-course">
+                        <div class="container">
+                            <div class="section teacher-course">
+                                <div class="container teacher-course-wrapper">
+                                    <div class="course-table">
+                                        <form
+                                            class="bg-w-form contact-form"
+                                            method="post"
+                                            autccomplete="off"
+                                            enctype="multipart/form-data"
+                                            id="FormRegistrarOlla"
+                                            name="FormRegistrarOlla">
+
+                                            <div class="group-title-index">
+                                                <h4 class="top-title">FORMULARIO</h4>
+                                                <h2 class="center-title">Inscripciones disponibles para los cursos</h2>
+                                                <div class="bottom-title">
+                                                    <i class="fa fa-pencil"></i>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-12 col-md-12 col-xs-12 ">
+                                                <div class="sidebar">
+                                                    <div class="tag-widget widget sd380">
+                                                        <div class="title-widget">CURSOS</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label class="control-label form-label">
+                                                    Centro deportivo
+                                                    <span class="highlight">*</span>
+                                                </label>
+
+                                                <select
+                                                    class="form-control form-select obligate"
+                                                    id="centro"
+                                                    value=""
+                                                    name="centro"
+                                                    onchange="BuscarCursos(this);"
+                                                    data-content="Usted debe seleccionar un centro deportivo.">
+                                                    <option value="">:: Seleccione una opción ::</option>
+                                                    {% for sede in SedesController.sedes %}
+                                                         <option value="{{ sede.id_sede }}">{{ sede.nombre }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-9">
+                                                <label class="control-label form-label">
+                                                    Deportes
+                                                    <span class="highlight">*</span>
+                                                </label>
+                                                <div class="row" id="obj_deporte" name="obj_deporte">
+                                                </div>
+                                            </div>
+                                       
+
+                                        <div class="col-sm-12 col-md-12 col-xs-12 ">
+                                            <div class="sidebar">
+                                                <div class="tag-widget widget sd380">
+                                                    <div class="title-widget">DATOS DEL PARTICIPANTE</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="control-label form-label">Nombres <span class="highlight">*</span></label>
+                                            <input type="text" placeholder="Ingrese el nombre del participante"
+                                                id="nombres"
+                                                name="nombres"
+                                                data-content="Ingrese el nombre del participante"
+                                                class="form-control form-input obligate mayus"
+                                                value="">
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="control-label form-label">Apellido parterno <span class="highlight">*</span></label>
+                                            <input
+                                                type="text"
+                                                placeholder="Ingrese el apellido paterno del participante"
+                                                id="ape_paterno"
+                                                name="ape_paterno"
+                                                data-content="Ingrese el apellido paterno del participante"
+                                                class="form-control form-input obligate mayus"
+                                                value="">
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="control-label form-label">Apellido marterno <span class="highlight">*</span></label>
+                                            <input
+                                                type="text"
+                                                placeholder="Ingrese el apellido materno del participante"
+                                                id="ape_materno"
+                                                name="ape_materno"
+                                                data-content="Ingrese el apellido materno del participante"
+                                                class="form-control form-input obligate mayus"
+                                                value="">
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="control-label form-label">Fecha de nacimiento <span class="highlight">*</span></label>
+                                            <input
+                                                type="date"
+                                                placeholder="Ingrese la fecha de nacimiento del participante"
+                                                id="fecha_nac"
+                                                name="fecha_nac"
+                                                data-content="Ingrese la fecha de nacimiento del participante"
+                                                class="form-control form-input obligate mayus"
+                                                value="">
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="control-label form-label">
+                                                Tipo de documento
+                                                <span class="highlight">*</span>
+                                            </label>
+
+                                            <select
+                                                class="form-control form-select obligate mayus"
+                                                id="tipo_documento"
+                                                value=""
+                                                name="tipo_documento"
+                                                data-content="Usted debe seleccionar el tipo de documento.">
+                                                <option value="">:: Seleccione una ocpión ::</option>
+                                                <option value="PTP">PTP</option>
+                                                <option value="DNI"> DNI</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="control-label form-label">Número de documento<span class="highlight">*</span></label>
+                                            <input
+                                                type="text"
+                                                placeholder="Ingrese el número de documento"
+                                                id="dni"
+                                                name="dni"
+                                                onkeypress="return validarnu(event)"
+                                                data-content="Ingrese el número de documento"
+                                                class="form-control form-input obligate"
+                                                value="">
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="control-label form-label">Edad<span class="highlight">*</span></label>
+                                            <input
+                                                type="text"
+                                                placeholder="Ingrese la edad del participante"
+                                                id="edad"
+                                                name="edad"
+                                                data-content="Ingrese la edad del participante"
+                                                class="form-control form-input obligate"
+                                                value="">
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="control-label form-label">Grado de estudios<span class="highlight">*</span></label>
+                                            <input
+                                                type="text"
+                                                placeholder="Ingrese el grado de estudios del participante"
+                                                id="grado_estudios"
+                                                name="grado_estudios"
+                                                data-content="Ingrese el grado de estudios del participante"
+                                                class="form-control form-input obligate"
+                                                value="">
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="control-label form-label">Nacionalidad<span class="highlight">*</span></label>
+                                            <input
+                                                type="text"
+                                                placeholder="Ingrese la nacionalidad participante"
+                                                id="nacionalidad"
+                                                name="nacionalidad"
+                                                data-content="Ingrese la nacionalidad del participante"
+                                                class="form-control form-input obligate"
+                                                value="">
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="control-label form-label">
+                                                Sexo <span class="highlight">*</span>
+                                            </label>
+                                            <select class="form-control form-select obligate"
+                                                id="sexo" value="" name="sexo"
+                                                data-content="Selecione el sexo de participante.">
+                                                <option value="">Seleccione una opción</option>
+                                                <option value="FEMENINO">FEMENINO</option>
+                                                <option value="MASCULINO">MASCULINO</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="control-label form-label">
+                                                Condición médica
+                                                <span class="highlight">*</span>
+                                            </label>
+                                            <select class="form-control form-select obligate"
+                                                id="condicion_medica" value="" name="condicion_medica"
+                                                data-content="Usted debe seleccionar la condición médica del participante.">
+                                                <option value="">Seleccione una opción</option>
+                                                <option value="CONDICIÓN 1">CONDICIÓN 1</option>
+                                                <option value="CONDICIÓN 2">CONDICIÓN 2</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="control-label form-label">
+                                                Seguro médico
+                                                <span class="highlight">*</span>
+                                            </label>
+
+                                            <select
+                                                class="form-control form-select obligate"
+                                                id="seguro_medico" value="" name="seguro_medico"
+                                                data-content="Usted debe seleccionar el tipo de seguro médico   .">
+                                                <option value="">Seleccione una opción</option>
+                                                <option value="SÍ">SÍ</option>
+                                                <option value="NO">NO</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="control-label form-label">Domicilio<span class="highlight">*</span></label>
+                                            <input type="text" placeholder="Ingrese el nombre del participante"
+                                                id="domicilio" name="domicilio" data-content="Ingrese domicilio del participante"
+                                                class="form-control form-input obligate mayus"
+                                                value="">
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label class="control-label form-label">
+                                                Distrito
+                                                <span class="highlight">*</span>
+                                            </label>
+
+                                            <select
+                                                class="form-control form-select obligate"
+                                                id="distrito" value="" name="distrito"
+                                                data-content="Usted debe seleccionar el distrito.">
+                                                <option value=""> Seleccione un distrito</option>
+                                                <option value="1251"> CERCADO DE LIMA</option>
+                                                <option value="1252"> ANCON</option>
+                                                <option value="1253"> ATE</option>
+                                                <option value="1254"> BARRANCO</option>
+                                                <option value="1255"> BREÑA</option>
+                                                <option value="1256"> CARABAYLLO</option>
+                                                <option value="1257"> CHACLACAYO</option>
+                                                <option value="1258"> CHORRILLOS</option>
+                                                <option value="1259"> CIENEGUILLA</option>
+                                                <option value="1260"> COMAS</option>
+                                                <option value="1261"> EL AGUSTINO</option>
+                                                <option value="1262"> INDEPENDENCIA</option>
+                                                <option value="1263"> JESUS MARIA</option>
+                                                <option value="1264"> LA MOLINA</option>
+                                                <option value="1265"> LA VICTORIA</option>
+                                                <option value="1266"> LINCE</option>
+                                                <option value="1267"> LOS OLIVOS</option>
+                                                <option value="1268"> LURIGANCHO</option>
+                                                <option value="1269"> LURIN</option>
+                                                <option value="1270"> MAGDALENA DEL MAR</option>
+                                                <option value="1271"> MAGDALENA VIEJA</option>
+                                                <option value="1272"> MIRAFLORES</option>
+                                                <option value="1273"> PACHACAMAC</option>
+                                                <option value="1274"> PUCUSANA</option>
+                                                <option value="1275"> PUENTE PIEDRA</option>
+                                                <option value="1276"> PUNTA HERMOSA</option>
+                                                <option value="1277"> PUNTA NEGRA</option>
+                                                <option value="1278"> RIMAC</option>
+                                                <option value="1279"> SAN BARTOLO</option>
+                                                <option value="1280"> SAN BORJA</option>
+                                                <option value="1281"> SAN ISIDRO</option>
+                                                <option value="1282"> SAN JUAN DE LURIGANCHO</option>
+                                                <option value="1283"> SAN JUAN DE MIRAFLORES</option>
+                                                <option value="1284"> SAN LUIS</option>
+                                                <option value="1285"> SAN MARTIN DE PORRES</option>
+                                                <option value="1286"> SAN MIGUEL</option>
+                                                <option value="1287"> SANTA ANITA</option>
+                                                <option value="1288"> SANTA MARIA DEL MAR</option>
+                                                <option value="1289"> SANTA ROSA</option>
+                                                <option value="1290"> SANTIAGO DE SURCO</option>
+                                                <option value="1291"> SURQUILLO</option>
+                                                <option value="1292"> VILLA EL SALVADOR</option>
+                                                <option value="1293"> VILLA MARIA DEL TRIUNFO</option>  
+                                            </select>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12 col-xs-12">
+                                            <div class="sidebar">
+                                                <div class="tag-widget widget sd380">
+                                                    <div class="title-widget">DATOS DEL PADRE O APODERADO</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="control-label form-label">Nombres <span class="highlight">*</span></label>
+                                            <input type="text" placeholder="Ingrese el nombre del participante" 
+                                            id="nombres_apo" name="nombres_apo" data-content="Ingrese el nombre del participante" 
+                                            class="form-control form-input obligate mayus" value="" />
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="control-label form-label">Apellido parterno <span class="highlight">*</span></label>
+                                            <input type="text" placeholder="Ingrese el nombre del participante" 
+                                            id="ape_pater_apo" name="ape_pater_apo" data-content="Ingrese el nombre del participante" 
+                                            class="form-control form-input obligate mayus" value="" />
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="control-label form-label">Apellido marterno <span class="highlight">*</span></label>
+                                            <input type="text" placeholder="Ingrese el nombre del participante" 
+                                            id="ape_mater_apo" name="ape_mater_apo" data-content="Ingrese el nombre del participante" 
+                                            class="form-control form-input obligate mayus" value="" />
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="control-label form-label">
+                                                Tipo de documento
+                                                <span class="highlight">*</span>
+                                            </label>
+                                            <select class="form-control form-select obligate" id="tipo_doc_apo" value="" name="tipo_doc_apo" data-content="Usted debe seleccionar el tipo de documento del padre o apoderado.">
+                                                <option value="">Seleccione un tipo de documento</option>
+                                                <option value="PTP">PTP</option>
+                                                <option value="DNI"> DNI</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="control-label form-label">DNI<span class="highlight">*</span></label>
+                                            <input type="text" placeholder="Ingrese el nombre del participante" id="dni_apo" name="dni_apo" onkeypress="return validarnu(event)" data-content="Ingrese el nombre del participante" class="form-control form-input obligate" value="" />
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="control-label form-label">
+                                                Parentesco
+                                                <span class="highlight">*</span>
+                                            </label>
+
+                                            <select class="form-control form-select obligate" id="parentesco" name="parentesco"  value="" data-content="Usted debe seleccionar el tipo de parentezo.">
+                                                <option value=""> Usted debe seleccionar el tipo de parentezo</option>
+                                                <option value="1251"> Femenino</option>
+                                                <option value="1252"> MAsculino</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label class="control-label form-label">Celular<span class="highlight">*</span></label>
+                                            <input
+                                                type="text"
+                                                placeholder="Ingrese el celular del/la representante"
+                                                id="celular_apo"
+                                                name="celular_apo"
+                                                class="form-control form-input obligate"
+                                                value=""
+                                                onkeypress="return validarnu(event)"
+                                                data-content="Usted debe ingresar el celular del/la representante."
+                                            />
+                                        </div>
+
+                                        <div class="sidebar">
+                                            <div class="tag-widget widget col-sm-12 col-md-12 col-xs-12 sd380">
+                                                <div class="title-widget">Persona con discapacidad</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="control-label form-label">
+                                                CONADIS
+                                                <span class="highlight">*</span>
+                                            </label>
+
+                                            <select class="form-control form-select obligate" id="conadis" name="conadis" value="" data-content="El participante esta registeado en CONADIS">
+                                                <option value=""> Seleccione una opción</option>
+                                                <option value="Sí">Sí</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="control-label form-label">Número de carné <span class="highlight">*</span></label>
+                                            <input type="text" placeholder="Ingrese el nombre del participante" id="carne_conadis" name="carne_conadis" data-content="Ingrese el nombre del participante" class="form-control form-input obligate" value="" />
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="control-label form-label">
+                                                Uso de silla de ruedas
+                                                <span class="highlight">*</span>
+                                            </label>
+
+                                            <select class="form-control form-select obligate" id="silla" value="" name="silla" data-content="El participante usa silla de ruedas">
+                                                <option value=""> Seleccione una opción</option>
+                                                <option value="Sí">Sí</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="control-label form-label">
+                                                Tipo de discapacidad
+                                                <span class="highlight">*</span>
+                                            </label>
+
+                                            <select class="form-control form-select obligate" id="tipo_discapacidad" value="" name="tipo_discapacidad" data-content="Usted debe seleccionar el tipo de discapacidad.">
+                                                <option value=""> Seleccione un distrito</option>
+                                                <option value="física">física</option>
+                                                <option value="visual">visual </option>
+                                                <option value="intelectual">intelectual </option>
+                                                <option value="otro">otro </option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <hr/>
+                                            <p>Toda información colocada en el presente formulario se utilizará con fines públicos respecto al programa.</p>
+                                        </div>
+
+                                        <div class="col-sm-12 msg"></div>
+
+                                        <div class="col-sm-12 barra mybarra"></div>
+
+                                        <div class="col-sm-12">
+                                            <div class="contact-submit reginscripcion">
+                                                <button type="button" id="registrar" name="registrar" class="btn btn-green">
+                                                    <span>
+                                                        REGISTRAR INFORMACIÓN
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {{ csrf.field | raw }}
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    class="modal fade"
+    id="myModalInformation"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myModalInformation">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header mod">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:#fff;">&times;</span></button>
+                <h4 class="modal-title modtitle" id="myModalInformation">[ INFORMACIÓN ]
+                </h4>
+            </div>
+            <div class="modal-body">
+                cargando contenido...espere un momento por favor
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+        !function (a) {
+            "use strict";
+
+            a(function () {
+                var b = a(window),
+                        c = a(document.body),
+                        mensaje = '',
+                        tipo = '',
+                        codigo = '';
+
+                $('.reginscripcion').click(function () {
+                    var b = a(this), dataString;
+                    var holder = '';
+                    var exito = true;
+
+                    $(".aceptacion").each(function () {
+                        if (!$(this).is(':checked')) {
+                            $(this).focus();
+                            holder = $(this).attr("data-content");
+                            exito = false;
+                            $(".msg").html("").show();
+                            $(".msg").html("<div class='alert alert-danger'><i class='fa fa-exclamation-triangle'></i> " + holder + "</div>");
+                            setTimeout(function () {
+                                $(".msg").fadeOut(1500);
+                            }, 1500);
+                            return false;
+                        }
+                    });
+
+                    $(".obligate").each(function () {
+                        if ($(this).val() == '') {
+                            $(this).focus();
+                            holder = $(this).attr("data-content");
+                            exito = false;
+                            $(".msg").html("").show();
+                            $(".msg").html("<div class='alert alert-danger'><i class='fa fa-exclamation-triangle'></i> " + holder + "</div>");
+                            setTimeout(function () {
+                                $(".msg").fadeOut(1500);
+                            }, 1500);
+                            return false;
+                        }
+                    });
+
+                    var pla =  $('input[name="curso[]"]:checked').length;
+                        if (pla<1) {
+                            exito = false;
+                            $(".msg").html("").show();
+                            $(".msg").html("<div class='alert alert-danger'><i class='fa fa-exclamation-triangle'></i> Debe seleccionar las plataformas virtuales utilizadas</div>");
+                            setTimeout(function () {
+                                $(".msg").fadeOut(1500);
+                            }, 1500);
+                            return false;
+                         }
+
+                    if (!exito)
+                        return false;
+
+
+                    var formData = new FormData($("#FormRegistrarOlla")[0]);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ base_url() }}/registrarparticipante",
+                        timeout:10000,
+                        Autoabort:true,
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        dataType: 'json',
+                        beforeSend: function () {
+                            $('#load').addClass('load');
+                            $("#registrar").attr("disabled", true);
+                        },
+                        success: function (data) {
+                            if (data.response == 'success') {
+                                $("#FormRegistrarOlla")[0].reset();
+                                $('#myModalInformation').find(".modal-body").html(data.message);
+                                $('#myModalInformation').modal('show');
+                                setTimeout(function () {
+                                    window.location.href = window.location;
+                                }, 1500);
+                            } else {
+                                $(".msg").html("").show();
+                                $('.msg').html(data.message);
+                                $("#registrar").attr("disabled", false);
+                            }
+                            $('#load').removeClass('load');
+                        },
+                        error: function () {
+                            console.log("It failed");
+                        }
+                    })
+                });
+
+            })
+        }
+
+        (jQuery), function () {
+            "use strict";
+            $('#fono').keyup(function () {
+                this.value = (this.value + '').replace(/[^0-9]/g, '');
+            });
+
+        }();
+
+
+    function validarnu(e) {
+        tecla = (document.all)
+            ? e.keyCode
+            : e.which;
+        if (tecla == 8) 
+            return true;
+        patron = /\d/;
+        te = String.fromCharCode(tecla);
+        return patron.test(te);
+    }
+
+    function validarle(e) {
+        tecla = (document.all)
+            ? e.keyCode
+            : e.which;
+        if (tecla == 8) 
+            return true; // 3
+        patron = /[A-Za-z\sñ á é í ó ú Á É Í Ó Ú Ñ]/;
+        te = String.fromCharCode(tecla);
+        return patron.test(te);
+    }
+
+
+
+    $(document).on('show.bs.modal', '.modal', function (event) {
+        var zIndex = 1040 + (10 * $('.modal:visible').length);
+        $(this).css('z-index', zIndex);
+        setTimeout(function () {
+            $('.modal-backdrop')
+                .not('.modal-stack')
+                .css('z-index', zIndex - 1)
+                .addClass('modal-stack');
+        }, 0);
+    });
+
+    $(document).ready( function () {
+        $(".mayus").on("keypress", function () {
+            $input=$(this);
+                setTimeout(function () {
+                $input.val($input.val().toUpperCase());
+            },50);
+        })
+    })
+
+</script>
+{% endblock content %}

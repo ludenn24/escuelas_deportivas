@@ -1,0 +1,179 @@
+{% extends 'templates/app.twig' %}
+{% block content %}
+    <style>
+        #ollasatendidas {
+            width: 100%;
+            height: 480px;
+        }
+        #ollasatendidaspordistrito {
+            width: 100%;
+            height: 500px;
+        }
+         #racionespordistrito {
+            width: 100%;
+            height: 700px;
+        }
+        #top5distritos {
+            width: 100%;
+            height: 500px;
+        }
+        .progress-bars .progress-bar-wrapper {
+            width: 100%;
+            text-align: center;
+            border: solid 2px #12a8a0;
+            border-radius: 10px;
+        }
+
+    </style>
+    <input type="hidden" name="identificador" id="identificador" value="atendidas">
+    <div id="wrapper-content">
+        <div id="page-wrapper">
+            <div class="main-content">
+                <div class="content">
+
+                    <div class="section banner  background-opacity page-title set-height-top">
+                        <div class="container">
+                            <div class="page-title-wrapper">
+                                <h2 class="captions">Ollas Atendidas</h2>
+                            </div>  
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="search-input">
+                            <div class="container">
+                                <div class="search-input-wrapper">
+                                    <form>
+
+                                        <div class="col-sm-6">
+                                            <h5 style="font-weight: bold; color: #000000; text-transform: uppercase;">
+                                                Búsqueda por Lima</h5>
+                                            <select class="form-control obj_tipo" id="obj_tipo" name="obj_tipo" onchange="Parametros()">
+                                                <option value="">TODOS</option>
+                                                <option value="Lima norte">LIMA NORTE</option>
+                                                <option value="Lima sur">LIMA SUR</option>
+                                                <option value="Lima centro">LIMA CENTRO</option>
+                                                <option value="Lima este">LIMA ESTE</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <h5 style="font-weight: bold; color: #000000; text-transform: uppercase;">
+                                                Búsqueda por distrito</h5>
+                                            <select class="form-control obj_distrito" id="obj_distrito" name="obj_distrito" onchange="Parametros()">
+                                                <option value="">TODOS</option>
+                                                <option value="CERCADO DE LIMA">CERCADO DE LIMA</option>
+                                                <option value="ANCON">ANCON</option>
+                                                <option value="ATE">ATE</option>
+                                                <option value="BARRANCO">BARRANCO</option>
+                                                <option value="BREÑA">BREÑA</option>
+                                                <option value="CARABAYLLO">CARABAYLLO</option>
+                                                <option value="CHACLACAYO">CHACLACAYO</option>
+                                                <option value="CHORRILLOS">CHORRILLOS</option>
+                                                <option value="CIENEGUILLA">CIENEGUILLA</option>
+                                                <option value="COMAS">COMAS</option>
+                                                <option value="EL AGUSTINO">EL AGUSTINO</option>
+                                                <option value="INDEPENDENCIA">INDEPENDENCIA</option>
+                                                <option value="JESUS MARIA">JESUS MARIA</option>
+                                                <option value="LA MOLINA">LA MOLINA</option>
+                                                <option value="LA VICTORIA">LA VICTORIA</option>
+                                                <option value="LINCE">LINCE</option>
+                                                <option value="LOS OLIVOS">LOS OLIVOS</option>
+                                                <option value="LURIGANCHO">LURIGANCHO</option>
+                                                <option value="LURIN">LURIN</option>
+                                                <option value="MAGDALENA DEL MAR">MAGDALENA DEL MAR</option>
+                                                <option value="MAGDALENA VIEJA">MAGDALENA VIEJA</option>
+                                                <option value="MIRAFLORES">MIRAFLORES</option>
+                                                <option value="PACHACAMAC">PACHACAMAC</option>
+                                                <option value="PUCUSANA">PUCUSANA</option>
+                                                <option value="PUENTE PIEDRA">PUENTE PIEDRA</option>
+                                                <option value="PUNTA HERMOSA">PUNTA HERMOSA</option>
+                                                <option value="PUNTA NEGRA">PUNTA NEGRA</option>
+                                                <option value="RIMAC">RIMAC</option>
+                                                <option value="SAN BARTOLO">SAN BARTOLO</option>
+                                                <option value="SAN BORJA">SAN BORJA</option>
+                                                <option value="SAN ISIDRO">SAN ISIDRO</option>
+                                                <option value="SAN JUAN DE LURIGANCHO">SAN JUAN DE LURIGANCHO</option>
+                                                <option value="SAN JUAN DE MIRAFLORES">SAN JUAN DE MIRAFLORES</option>
+                                                <option value="SAN LUIS">SAN LUIS</option>
+                                                <option value="SAN MARTIN DE PORRES">SAN MARTIN DE PORRES</option>
+                                                <option value="SAN MIGUEL">SAN MIGUEL</option>
+                                                <option value="SANTA ANITA">SANTA ANITA</option>
+                                                <option value="SANTA MARIA DEL MAR">SANTA MARIA DEL MAR</option>
+                                                <option value="SANTA ROSA">SANTA ROSA</option>
+                                                <option value="SANTIAGO DE SURCO">SANTIAGO DE SURCO</option>
+                                                <option value="SURQUILLO">SURQUILLO</option>
+                                                <option value="VILLA EL SALVADOR">VILLA EL SALVADOR</option>
+                                                <option value="VILLA MARIA DEL TRIUNFO">VILLA MARIA DEL TRIUNFO</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section progress-bars section-padding">
+                        <div class="container">
+                            <div class="progress-bars-content">
+                                <div class="progress-bar-wrapper">
+                                    <div class="row">
+                                        <div class="content">
+                                            <div class="col-sm-6">
+                                                <div class="progress-bar-number">
+                                                    <p class="name-inner">Ollas Totales Atendidas</p>
+                                                    <div data-from="0" data-to="" data-speed="1000" class="counterollastotalesatendidas"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="progress-bar-number">
+                                                    <p class="name-inner">Raciones Totales </p>
+                                                    <div data-from="0" data-to="" data-speed="1000" class="counterracionestotalesatendidas"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                                    
+                    <div class="section">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6 pd-bot">
+                                    <div class="seccion-estadistica">
+                                        <h4>Ollas Atendidas</h4>
+                                        <p>Información sobre el total de Ollas atendidas , distritos, beneficiarios y raciones en el año 2020, 2021 y 2022 hasta el 20/03/2021</p>
+                                        <div id="ollasatendidas"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pd-bot">
+                                    <div class="seccion-estadistica">
+                                        <h4>Top 5 de distritos con más ollas atendidas</h4>
+                                        <p>Información sobre el porcentaje de ollas de los 5 distritos más atendidos</p>
+                                        <div id="top5distritos"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 pd-bot">
+                                    <div class="seccion-estadistica">
+                                    <h4>Cantidad de Ollas comunes atendidas según distritos</h4>
+                                    <p>Información sobre la cantidad total de ollas atendidas en los distritos de Lima Metropolitana</p>
+                                    <div id="ollasatendidaspordistrito"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 pd-bot">
+                                    <div class="seccion-estadistica">
+                                    <h4>Cantidad de Raciones según distritos</h4>
+                                    <p>Información sobre la cantidad total de raciones en los distritos de Lima Metropolitana</p>
+                                    <div id="racionespordistrito"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                                                    
+{% endblock content %}

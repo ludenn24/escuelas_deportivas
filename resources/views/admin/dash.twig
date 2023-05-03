@@ -1,0 +1,175 @@
+{% extends 'admin/templates/app.twig' %}
+
+{% block content %}
+<style>
+    td.details-control {
+        background: url('{{ base_url() }}/images/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+    tr.shown  td.details-control {
+        background: url('{{ base_url() }}/images/details_close.png') no-repeat center center;
+    }
+</style>
+<body class="hold-transition skin-blue sidebar-mini ">
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99"
+         style="transform: translate3d(100%, 0px, 0px);">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div class="wrapper">
+    <header class="main-header">
+             <header class="main-header">
+                 {% include 'admin/templates/head.twig' %}
+            </header>
+    </header>
+
+    <aside class="main-sidebar">
+        {% include 'admin/templates/menu.twig' %}
+    </aside>
+
+    <div class="content-wrapper">
+    <section class="content-header">
+        <h1>
+            Bienvenido
+        </h1>
+    </section>
+    <section class="content">
+    <div class="row">
+        <div class="col-xs-8">
+            <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Materiales de ayuda</h3>
+            </div>
+                <div class="box-body">
+                    <table id="Noticias"  class="table table-bordered table-hover" width="100%">
+                        <thead>
+                            <tr class="heading-table">
+                                <th></th>
+                                <th>Nombre</th>
+                                <th>Detalle</th>
+                                 <th>Fecha</th>
+                                 <th>Documento</th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    </div>
+
+    <script type="text/javascript">
+                
+                $(document).ready(function () {
+                    
+                    ListaNoticias();
+   
+
+                })
+
+                function format(d) {
+
+                    if (d.titulo) {
+                        return '<div class="col-md-8"><div class="col-md-12"><p style="float: left;"><strong>OBSERVACIONES: </strong> ' + d.titulo + '</p><br></div>';
+                    } else {
+                        return '<div class="col-md-8"><div class="col-md-12"><p style="float: left;"><strong>OBSERVACIONES: </strong> No se registraron observaciones.</p><br></div>';
+                    }
+
+                }
+                var childRows = null;
+                
+                function ListaNoticias() {
+                    responsive: true
+                    var dt = $('#Noticias').DataTable({
+                        destroy: true,
+                        "language": {
+                            "lengthMenu": "Ver _MENU_ registros por página",
+                            "zeroRecords": "No se encontraron resultados",
+                            "info": "Viendo página _PAGE_ de _PAGES_",
+                            "infoEmpty": "No se encontraron registros",
+                            "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "search": "Buscar:",
+                            "paginate": {
+                                "first": "Primero",
+                                "last": "Último",
+                                "next": "Siguiente",
+                                "previous": "Anterior"
+                            },
+                        },
+
+                        "ajax": {
+                            "type": "get",
+                            "url": "{{ base_url() }}/admin/entrada/listar",
+                            "data": {
+                                categoria: "datos"
+                            }
+                        },
+
+                        "columns": [
+                            {
+                                "class": "details-control",
+                                "orderable": false,
+                                "data": null,
+                                "defaultContent": ""
+                            },
+                            {"data": "titulo" },
+                            {"data": "detallecorto"},   
+                            {"data": "created_at" },
+                            {"data": "foto",
+                            render: function (data) {
+                                return "<a class='btn btn-default' download " +
+                                        "href='{{base_url()}}/" + data + "'>" +
+                                        "<i class='fa fa-download'></i></a>"
+                                
+                            },
+                        },
+                        ],
+
+                       columnDefs: [
+                            {
+                                className: 'text-center',
+                                targets: [0,2],
+                            },
+                               
+                        ]
+                    });
+
+                    var detailRows = [];
+
+                    $('#Noticias tbody').off('click', 'tr td.details-control');
+                    $('#Noticias tbody').on('click', 'tr td.details-control', function () {
+                        var tr = $(this).closest('tr');
+                        var row = dt.row(tr);
+
+                        if (row.child.isShown()) {
+                            row.child.hide();
+                            tr.removeClass('shown');
+                        } else {
+                            // Open this row
+                            d = row.data();
+                            row.child(format(d)).show();
+                            tr.addClass('shown');
+                        }
+                    });
+
+                    dt.on('draw', function () {
+                        if (childRows) {
+
+                            childRows.every(function (rowIdx, tableLoop, rowLoop) {
+                                d = this.data();
+                                this.child($(format(d))).show();
+                                this.nodes().to$().addClass('shown');
+                            });
+                            childRows = null;
+                        }
+                    });
+
+                }
+
+            </script>
+
+    {% endblock content %}
