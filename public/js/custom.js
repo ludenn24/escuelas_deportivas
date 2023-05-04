@@ -20,23 +20,24 @@ function BuscarCursos(selectObject) {
                 "type='checkbox' "+
                 "name='curso[]' "+
                 "id='curso_"+item.id_curso+"' "+
+                "class='checkbox' "+
                 "value='"+item.id_curso+"' "+ 
                 "onclick='ActiveHorario(this)'>"+
                 "<label for='curso_"+item.id_curso+"'>"+item.nombre+"</label>"+
                 "</div>"+
                 "</div>"+
-                "<div class='col-md-4 col-4 col-xs-12'>"+
+                "<div class='col-md-4 col-4 col-xs-offset-2 col-md-offset-0 col-xs-10'>"+
                 "<input style='display:none' class='form-control' name='frecuencia[]' id='fre_"+item.id_curso+"' "+
                 "type='text' disabled='disabled' "+
                 "value='"+item.frecuencia+"' >"+ 
                 "</div>"+
-                "<div class='col-md-5 col-5 col-xs-12'>"+
+                "<div class='col-md-5 col-5 col-xs-offset-2 col-md-offset-0 col-xs-10'>"+
                 "<select style='display:none' "+
                 "class='form-control form-select ' id='curso_hora_"+item.id_curso+"' name='horario[]' "+
                 "id='distrito'"+
                 " value=''"+
                 " name='distrito'"+
-                "data-content='Usted debe seleccionar el distrito.'>"+
+                "data-content='Usted debe seleccionar un horario.'>"+
                 "<option value=''>:: Horarios | Edades ::</option>"+
                 "</select>"+
                 "</div>"+
@@ -79,9 +80,11 @@ function ActiveHorario(selectObject) {
     if (x.style.display === "none" || y.style.display === "none") {
         x.style.display = "block";
         y.style.display = "block";
+        y.classList.add("obligate");
     } else {
         x.style.display = "none";
         y.style.display = "none";
+        y.classList.remove("obligate");
     }
 
 };

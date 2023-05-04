@@ -32,9 +32,7 @@
                                             <div class="group-title-index">
                                                 <h4 class="top-title">FORMULARIO</h4>
                                                 <h2 class="center-title">Inscripciones disponibles para los cursos</h2>
-                                                <div class="bottom-title">
-                                                    <i class="fa fa-pencil"></i>
-                                                </div>
+                                                <div class="bottom-title"><i class="fa fa-pencil"></i></div>
                                             </div>
 
                                             <div class="col-sm-12 col-md-12 col-xs-12 ">
@@ -46,11 +44,7 @@
                                             </div>
 
                                             <div class="col-md-3">
-                                                <label class="control-label form-label">
-                                                    Centro deportivo
-                                                    <span class="highlight">*</span>
-                                                </label>
-
+                                                <label class="control-label form-label"> Centro deportivo <span class="highlight">*</span></label>
                                                 <select
                                                     class="form-control form-select obligate"
                                                     id="centro"
@@ -85,36 +79,21 @@
 
                                         <div class="col-md-4">
                                             <label class="control-label form-label">Nombres <span class="highlight">*</span></label>
-                                            <input type="text" placeholder="Ingrese el nombre del participante"
-                                                id="nombres"
-                                                name="nombres"
-                                                data-content="Ingrese el nombre del participante"
-                                                class="form-control form-input obligate mayus"
-                                                value="">
+                                            <input type="text" placeholder="Ingrese el nombre del participante" id="nombres" name="nombres"
+                                             data-content="Ingrese el nombre del participante" class="form-control form-input obligate mayus" value="">
                                         </div>
 
                                         <div class="col-md-4">
                                             <label class="control-label form-label">Apellido parterno <span class="highlight">*</span></label>
-                                            <input
-                                                type="text"
-                                                placeholder="Ingrese el apellido paterno del participante"
-                                                id="ape_paterno"
-                                                name="ape_paterno"
-                                                data-content="Ingrese el apellido paterno del participante"
-                                                class="form-control form-input obligate mayus"
-                                                value="">
+                                            <input type="text" placeholder="Ingrese el apellido paterno del participante"
+                                                id="ape_paterno" name="ape_paterno" data-content="Ingrese el apellido paterno del participante"
+                                                class="form-control form-input obligate mayus" value="">
                                         </div>
 
                                         <div class="col-md-4">
                                             <label class="control-label form-label">Apellido marterno <span class="highlight">*</span></label>
-                                            <input
-                                                type="text"
-                                                placeholder="Ingrese el apellido materno del participante"
-                                                id="ape_materno"
-                                                name="ape_materno"
-                                                data-content="Ingrese el apellido materno del participante"
-                                                class="form-control form-input obligate mayus"
-                                                value="">
+                                            <input type="text" placeholder="Ingrese el apellido materno del participante" id="ape_materno" name="ape_materno"
+                                                data-content="Ingrese el apellido materno del participante" class="form-control form-input obligate mayus" value="">
                                         </div>
 
                                         <div class="col-md-4">
@@ -125,7 +104,7 @@
                                                 id="fecha_nac"
                                                 name="fecha_nac"
                                                 data-content="Ingrese la fecha de nacimiento del participante"
-                                                class="form-control form-input obligate mayus"
+                                                class="form-control form-input obligate"
                                                 value="">
                                         </div>
 
@@ -148,7 +127,7 @@
                                         </div>
 
                                         <div class="col-md-4">
-                                            <label class="control-label form-label">Número de documento<span class="highlight">*</span></label>
+                                            <label class="control-label form-label">Número de documento <span class="highlight">*</span></label>
                                             <input
                                                 type="text"
                                                 placeholder="Ingrese el número de documento"
@@ -156,12 +135,12 @@
                                                 name="dni"
                                                 onkeypress="return validarnu(event)"
                                                 data-content="Ingrese el número de documento"
-                                                class="form-control form-input obligate"
+                                                class="form-control form-input obligate mayus"
                                                 value="">
                                         </div>
 
                                         <div class="col-md-4">
-                                            <label class="control-label form-label">Edad<span class="highlight">*</span></label>
+                                            <label class="control-label form-label">Edad <span class="highlight">*</span></label>
                                             <input
                                                 type="text"
                                                 placeholder="Ingrese la edad del participante"
@@ -173,19 +152,25 @@
                                         </div>
 
                                         <div class="col-md-4">
-                                            <label class="control-label form-label">Grado de estudios<span class="highlight">*</span></label>
-                                            <input
-                                                type="text"
-                                                placeholder="Ingrese el grado de estudios del participante"
-                                                id="grado_estudios"
-                                                name="grado_estudios"
-                                                data-content="Ingrese el grado de estudios del participante"
-                                                class="form-control form-input obligate"
-                                                value="">
+                                            <label class="control-label form-label">Grado de estudios <span class="highlight">*</span></label>
+                                            <select class="form-control form-select obligate"
+                                                id="grado_estudios" value="" name="grado_estudios"
+                                                data-content="Ingrese el grado de estudios del participante.">
+                                                <option value="">:: Seleccione una opción ::</option>
+                                                <option value="Inicial"> Inicial</option>
+                                                <option value="Primaria"> Primaria</option>
+                                                <option value="Secundaria"> Secundaria</option>
+                                                <option value="Básica especial"> Básica especial</option>
+                                                <option value="Formación técnica incompleta"> Formación técnica incompleta</option>
+                                                <option value="Formación técnica completa"> Formación técnica completa</option>
+                                                <option value="Formación universitaria incompleta"> Formación universitaria incompleta</option>
+                                                <option value="Formación universitaria completa"> Formación universitaria completa</option>
+                                                <option value="Maestría/doctorado"> Maestría/doctorado</option>
+                                            </select>
                                         </div>
 
                                         <div class="col-md-4">
-                                            <label class="control-label form-label">Nacionalidad<span class="highlight">*</span></label>
+                                            <label class="control-label form-label">Nacionalidad <span class="highlight">*</span></label>
                                             <input
                                                 type="text"
                                                 placeholder="Ingrese la nacionalidad participante"
@@ -197,9 +182,7 @@
                                         </div>
 
                                         <div class="col-md-4">
-                                            <label class="control-label form-label">
-                                                Sexo <span class="highlight">*</span>
-                                            </label>
+                                            <label class="control-label form-label">Sexo <span class="highlight">*</span></label>
                                             <select class="form-control form-select obligate"
                                                 id="sexo" value="" name="sexo"
                                                 data-content="Selecione el sexo de participante.">
@@ -240,7 +223,7 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label class="control-label form-label">Domicilio<span class="highlight">*</span></label>
+                                            <label class="control-label form-label">Domicilio <span class="highlight">*</span></label>
                                             <input type="text" placeholder="Ingrese el nombre del participante"
                                                 id="domicilio" name="domicilio" data-content="Ingrese domicilio del participante"
                                                 class="form-control form-input obligate mayus"
@@ -346,7 +329,7 @@
                                         </div>
 
                                         <div class="col-md-4">
-                                            <label class="control-label form-label">DNI<span class="highlight">*</span></label>
+                                            <label class="control-label form-label">DNI <span class="highlight">*</span></label>
                                             <input type="text" placeholder="Ingrese el nombre del participante" id="dni_apo" name="dni_apo" onkeypress="return validarnu(event)" data-content="Ingrese el nombre del participante" class="form-control form-input obligate" value="" />
                                         </div>
 
@@ -356,10 +339,10 @@
                                                 <span class="highlight">*</span>
                                             </label>
 
-                                            <select class="form-control form-select obligate" id="parentesco" name="parentesco"  value="" data-content="Usted debe seleccionar el tipo de parentezo.">
-                                                <option value=""> Usted debe seleccionar el tipo de parentezo</option>
-                                                <option value="1251"> Femenino</option>
-                                                <option value="1252"> MAsculino</option>
+                                            <select class="form-control form-select obligate" id="parentesco" name="parentesco"  value="" data-content="Usted debe seleccionar el tipo de parentesco.">
+                                                <option value=""> Usted debe seleccionar el tipo de parentesco</option>
+                                                <option value="PADRE"> PADRE</option>
+                                                <option value="MADRE"> MADRE</option>
                                             </select>
                                         </div>
 
@@ -370,7 +353,7 @@
                                                 placeholder="Ingrese el celular del/la representante"
                                                 id="celular_apo"
                                                 name="celular_apo"
-                                                class="form-control form-input obligate"
+                                                class="form-control form-input obligate mayus"
                                                 value=""
                                                 onkeypress="return validarnu(event)"
                                                 data-content="Usted debe ingresar el celular del/la representante."
@@ -397,8 +380,9 @@
                                         </div>
 
                                         <div class="col-md-3">
-                                            <label class="control-label form-label">Número de carné <span class="highlight">*</span></label>
-                                            <input type="text" placeholder="Ingrese el nombre del participante" id="carne_conadis" name="carne_conadis" data-content="Ingrese el nombre del participante" class="form-control form-input obligate" value="" />
+                                            <label class="control-label form-label">Número de carnet <span class="highlight">*</span></label>
+                                            <input type="text" placeholder="Ingrese el número de carnet de CONADIS" id="carne_conadis" name="carne_conadis" 
+                                            data-content="Ingrese el número de carnet de CONADIS" class="form-control form-input obligate mayus" value="" />
                                         </div>
 
                                         <div class="col-md-3">
@@ -532,20 +516,19 @@
                         }
                     });
 
-                    var pla =  $('input[name="curso[]"]:checked').length;
-                        if (pla<1) {
+                    let curso =  $('input[name="curso[]"]:checked').length;
+                        if (curso<1) {
                             exito = false;
                             $(".msg").html("").show();
-                            $(".msg").html("<div class='alert alert-danger'><i class='fa fa-exclamation-triangle'></i> Debe seleccionar las plataformas virtuales utilizadas</div>");
+                            $(".msg").html("<div class='alert alert-danger'><i class='fa fa-exclamation-triangle'></i> Debe seleccionar algún deporte de interés</div>");
                             setTimeout(function () {
                                 $(".msg").fadeOut(1500);
                             }, 1500);
                             return false;
-                         }
+                    }
 
                     if (!exito)
                         return false;
-
 
                     var formData = new FormData($("#FormRegistrarOlla")[0]);
 
@@ -637,6 +620,17 @@
                 $input.val($input.val().toUpperCase());
             },50);
         })
+
+        $(".mayus").on('paste', function(e){
+            e.preventDefault();
+            alert('Esta acción está prohibida');
+        })
+        
+        $(".mayus").on('copy', function(e){
+            e.preventDefault();
+            alert('Esta acción está prohibida');
+        })
+        
     })
 
 </script>
