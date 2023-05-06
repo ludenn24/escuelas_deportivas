@@ -488,6 +488,24 @@
                     var holder = '';
                     var exito = true;
 
+                    var horario = [];            
+                    $('select[name^=horario]').each(function(){
+                        let text = $(this).find('option:selected').text();
+                        let result = text.substring(0, 13);
+                        horario.push(result);
+                    });
+
+                    var validacionhorario = checkIfDuplicateExists(horario);
+                    if(validacionhorario == true) {
+                        exito = false;
+                        $(".msg").html("").show();
+                        $(".msg").html("<div class='alert alert-danger'><i class='fa fa-exclamation-triangle'></i> Los horarios no pueden repetirse</div>");
+                        setTimeout(function () {
+                            $(".msg").fadeOut(1500);
+                        }, 1500);
+                        return false;
+                    }
+
                     $(".aceptacion").each(function () {
                         if (!$(this).is(':checked')) {
                             $(this).focus();
@@ -526,6 +544,8 @@
                             }, 1500);
                             return false;
                     }
+
+
 
                     if (!exito)
                         return false;
@@ -599,6 +619,11 @@
         te = String.fromCharCode(tecla);
         return patron.test(te);
     }
+
+    function checkIfDuplicateExists(arr) {
+        return new Set(arr).size !== arr.length
+    }
+  
 
 
 

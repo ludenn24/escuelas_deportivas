@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Helper\JsonRequest;
 use App\Helper\JsonRenderer;
 use App\Models\Participantes;
+use App\Models\Inscripciones;
 use App\Controllers\Controller;
 use Illuminate\Database\Capsule\Manager as DB;
 use Respect\Validation\Validator as v;
@@ -12,7 +13,7 @@ Class ParticipantesController extends Controller
 {
 public function Registrar($request, $response, $args) {
     try {
-        Participantes::create([
+        $lastid = Participantes::create([
             'nombres'=> $request->getParam('nombres'),
             'ape_paterno'=> $request->getParam('ape_paterno'),
             'ape_materno'=> $request->getParam('ape_materno'),
@@ -26,7 +27,7 @@ public function Registrar($request, $response, $args) {
             'condicion_medica'=> $request->getParam('condicion_medica'),
             'seguro_medico'=> $request->getParam('seguro_medico'),
             'domicilio'=> $request->getParam('domicilio'),
-            'distrito'=> $request->getParam('distrito'),
+            'distrito'=> $request->getParam('distrito'),    
             'nombres_apo'=> $request->getParam('nombres_apo'),
             'ape_pater_apo'=> $request->getParam('ape_pater_apo'),
             'ape_mater_apo'=> $request->getParam('ape_mater_apo'),
@@ -38,10 +39,27 @@ public function Registrar($request, $response, $args) {
             'carne_conadis'=> $request->getParam('carne_conadis'),
             'silla'=> $request->getParam('silla'),
             'tipo_discapacidad'=> $request->getParam('tipo_discapacidad'),
-        ]);
+        ])->id;
+
+        $curcurso = $request->getParam('curso');
+        $curhorario = $request->getParam('horario');
+        $cursconvo = $request->getParam('horario');
+
+        foreach ($curhorario as $key => $value) { 
+            if (isset($value) && !empty($value)) {
+                $input['id_participante'] = $lastid;
+                $input['id_curso'] = $curhorario[$key];
+                $input['id_horario'] = $curhorario[$key];
+                $input['id_convocatoria'] = $cursconvo[$key];
+                Inscripciones::create($input);
+            }
+          }
+
         $mensaje['response'] = 'success';
         $mensaje['message'] = 'Registro correcto';
+
         echo json_encode($mensaje);
+
     } catch (ErrorException $e) {
         $mensaje['response'] = "error";
         $mensaje['message'] = 'Ocurrió un error, inténtelo nuevamente';
