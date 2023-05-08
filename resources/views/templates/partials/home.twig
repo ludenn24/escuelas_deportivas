@@ -141,14 +141,9 @@
 
                                         <div class="col-md-4">
                                             <label class="control-label form-label">Edad <span class="highlight">*</span></label>
-                                            <input
-                                                type="text"
-                                                placeholder="Ingrese la edad del participante"
-                                                id="edad"
-                                                name="edad"
-                                                data-content="Ingrese la edad del participante"
-                                                class="form-control form-input obligate"
-                                                value="">
+                                            <input type="text" pattern="\d*" placeholder="Ingrese la edad del participante"
+                                                id="edad" name="edad" min="1" maxlength="65" onkeypress="return validarnu(event);"
+                                                data-content="Ingrese la edad del participante" class="form-control form-input obligate" value="">
                                         </div>
 
                                         <div class="col-md-4">
@@ -488,6 +483,29 @@
                     var holder = '';
                     var exito = true;
 
+                    $(".obligate").each(function () {
+                        if ($(this).val() == '') {
+                            $(this).focus();
+                            holder = $(this).attr("data-content");
+                            exito = false;
+                            Swal.fire(
+                            '¡Advertencia!',
+                             holder,
+                            'warning');
+                            return false;
+                        }
+                    });
+
+                    let curso =  $('input[name="curso[]"]:checked').length;
+                        if (curso<1) {
+                            exito = false;
+                            Swal.fire(
+                            '¡Advertencia!',
+                             'Debe seleccionar algún deporte de interés',
+                            'warning');
+                            return false;
+                    }
+
                     var horario = [];            
                     $('select[name^=horario]').each(function(){
                         let text = $(this).find('option:selected').text();
@@ -495,14 +513,30 @@
                         horario.push(result);
                     });
 
+                    var horariovalue = [];            
+                    $('select[name^=horario]').each(function(){
+                        let value = $(this).val();
+                        horariovalue.push(value);
+                    });
+
                     var validacionhorario = checkIfDuplicateExists(horario);
                     if(validacionhorario == true) {
                         exito = false;
-                        $(".msg").html("").show();
-                        $(".msg").html("<div class='alert alert-danger'><i class='fa fa-exclamation-triangle'></i> Los horarios no pueden repetirse</div>");
-                        setTimeout(function () {
-                            $(".msg").fadeOut(1500);
-                        }, 1500);
+                        Swal.fire(
+                        '¡Advertencia!',
+                        'Los horarios no pueden repetirse',
+                        'warning');
+                        return false;
+                    }
+
+                    var validacionselecthorario = checkIfExists(horariovalue);
+                    if(validacionselecthorario == true) {   
+                        exito = false;
+                        $("#horario").focus();
+                        Swal.fire(
+                        '¡Advertencia!',
+                        'Debe seleccionar un horario',
+                        'warning');
                         return false;
                     }
 
@@ -519,33 +553,6 @@
                             return false;
                         }
                     });
-
-                    $(".obligate").each(function () {
-                        if ($(this).val() == '') {
-                            $(this).focus();
-                            holder = $(this).attr("data-content");
-                            exito = false;
-                            $(".msg").html("").show();
-                            $(".msg").html("<div class='alert alert-danger'><i class='fa fa-exclamation-triangle'></i> " + holder + "</div>");
-                            setTimeout(function () {
-                                $(".msg").fadeOut(1500);
-                            }, 1500);
-                            return false;
-                        }
-                    });
-
-                    let curso =  $('input[name="curso[]"]:checked').length;
-                        if (curso<1) {
-                            exito = false;
-                            $(".msg").html("").show();
-                            $(".msg").html("<div class='alert alert-danger'><i class='fa fa-exclamation-triangle'></i> Debe seleccionar algún deporte de interés</div>");
-                            setTimeout(function () {
-                                $(".msg").fadeOut(1500);
-                            }, 1500);
-                            return false;
-                    }
-
-
 
                     if (!exito)
                         return false;
@@ -568,11 +575,10 @@
                         success: function (data) {
                             if (data.response == 'success') {
                                 $("#FormRegistrarOlla")[0].reset();
-                                $('#myModalInformation').find(".modal-body").html(data.message);
-                                $('#myModalInformation').modal('show');
-                                setTimeout(function () {
-                                    window.location.href = window.location;
-                                }, 1500);
+                                      Swal.fire(
+                                        '¡Atención!',
+                                        'Sus datos se registraron con éxito',
+                                        'success');
                             } else {
                                 $(".msg").html("").show();
                                 $('.msg').html(data.message);
@@ -620,23 +626,18 @@
         return patron.test(te);
     }
 
+    function maxnumber(input) {
+    if (input.value < 0) input.value = 0;
+    if (input.value > 65) input.value = 65;
+    }
+
     function checkIfDuplicateExists(arr) {
         return new Set(arr).size !== arr.length
     }
-  
-
-
-
-    $(document).on('show.bs.modal', '.modal', function (event) {
-        var zIndex = 1040 + (10 * $('.modal:visible').length);
-        $(this).css('z-index', zIndex);
-        setTimeout(function () {
-            $('.modal-backdrop')
-                .not('.modal-stack')
-                .css('z-index', zIndex - 1)
-                .addClass('modal-stack');
-        }, 0);
-    });
+    
+    function checkIfExists(arr2) {
+        return arr2.indexOf("") > -1;
+    }
 
     $(document).ready( function () {
         $(".mayus").on("keypress", function () {

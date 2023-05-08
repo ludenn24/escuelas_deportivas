@@ -32,11 +32,10 @@ function BuscarCursos(selectObject) {
                 "value='"+item.frecuencia+"' >"+ 
                 "</div>"+
                 "<div class='col-md-5 col-5 col-xs-offset-2 col-md-offset-0 col-xs-10'>"+
-                "<select hidden style='display:none' "+
-                "class='form-control form-select ' id='curso_hora_"+item.id_curso+"' "+
+                "<select style='display:none' "+
+                "class='form-control form-select' id='curso_hora_"+item.id_curso+"' "+
                 "id='distrito'"+
                 " value=''"+
-                "data-content='Usted debe seleccionar un horario.'>"+
                 "</select>"+
                 "</div>"+
                 "</div>"+
@@ -56,7 +55,7 @@ function BuscarCursos(selectObject) {
                         //var b = JSON.parse(data);
                         //var cont = 0;
                         //$('#li'+item.idcategory).append('<ul class="treeview-menu" id="ul'+item.idcategory+'">');
-                        $('#curso_hora_'+item.id_curso).append('<option>:: Horarios | Edades ::</option>');
+                        $('#curso_hora_'+item.id_curso).append('<option value="">:: Horarios | Edades ::</option>');
                         $.each(data,function(v,value){
                             $('#curso_hora_'+item.id_curso).append('<option value="'+value.id_horario+'">'+value.horario+" | "+value.edades+  '</option>');
                             //cont++;
@@ -80,12 +79,10 @@ function ActiveHorario(selectObject) {
     if (x.style.display === "none" || y.style.display === "none") {
         x.style.display = "block";
         y.style.display = "block";
-        y.classList.add("obligate");
         y.setAttribute("name", "horario[]");
     } else {
         x.style.display = "none";
         y.style.display = "none";
-        y.classList.remove("obligate");
         y.setAttribute("name", "");
     }
 
