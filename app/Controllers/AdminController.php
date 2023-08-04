@@ -33,6 +33,20 @@ Class AdminController extends Controller
         return $this->view->render($response, 'admin/dash.twig');
     }
 
+    public function getViewSedes($request, $response)
+    {
+        return $this->view->render($response, 'admin/auth/sedes.twig');
+    }
+
+    public function getViewInscripciones($request, $response)
+    {
+        return $this->view->render($response, 'admin/auth/inscripciones.twig');
+    }
+
+    public function getViewParticipantes($request, $response)
+    {
+        return $this->view->render($response, 'admin/auth/participantes.twig');
+    }
 
     public function getOrganizaciones($request, $response, $args)
     {
@@ -42,7 +56,12 @@ Class AdminController extends Controller
     public function getOllasDistritales($request, $response, $args)
     {
         return $this->view->render($response, 'admin/auth/ollas-distritales.twig');
-    }	   public function getOllasSimple($request, $response, $args)    {        return $this->view->render($response, 'admin/auth/ollas-simple.twig');    }
+    }	   
+    
+    public function getOllasSimple($request, $response, $args)    
+    {        
+        return $this->view->render($response, 'admin/auth/ollas-simple.twig');    
+    }
  
     public function getEntradaReportes($request, $response, $args)
     {

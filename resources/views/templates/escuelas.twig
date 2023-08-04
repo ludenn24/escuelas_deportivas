@@ -1,0 +1,72 @@
+{% extends 'templates/app.twig' %}
+{% block content %}
+
+    <style>
+        .edugate-image img {
+            -webkit-box-shadow: 0 0 8px 4px rgb(126 126 126);
+        }
+    </style>
+    <div id="load"></div>
+    <div id="wrapper-content">
+        <div id="page-wrapper">
+            <div class="main-content">
+                <div class="content">
+
+                    <div class="section banner" id="fondo">
+                        <div class="container">
+                            <div class="edu-feature-wrapper">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <img src="images/portada.jpg" class="computer-image" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section section-padding news-page">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row news-page-wrapper">
+
+                                        {% for sede in SedesController.sedes %}
+                                            <div class="col-sm-6">
+                                                <div class="edugate-layout-3 news-gird">
+                                                    <div class="edugate-layout-3-wrapper">
+                                                        <a href="http://redmetro.gpvlima.com/public/noticia/detalle/8"
+                                                            class="edugate-image">
+                                                            <img src="{{ base_url() }}/{{ sede.foto }}"
+                                                                alt="" class="img-responsive">
+                                                        </a>
+                                                        <div class="edugate-content">
+                                                            <a href="#" class="title">{{ sede.nombre }}</a>
+                                                            <div class="info">
+                                                                <div class="author item">
+                                                                    <a href="#">{{ sede.direccion }}</a>
+                                                                </div>
+                                                                <div class="date-time item">
+                                                                    <a href="#">{{ sede.nom_distrito }}</a>
+                                                                </div>
+                                                            </div>
+                                                            <button class="btn btn-green" onclick="location.href='#'">
+                                                                <span>Conocer más</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

@@ -15,6 +15,8 @@ class Cursos extends Model
         'id_sede',
         'nombre',
         'frecuencia',
+        'docente',
+        'cupos',
         'estado',
         'created_at',
         'updated_at'

@@ -26,12 +26,7 @@ function BuscarCursos(selectObject) {
                 "<label for='curso_"+item.id_curso+"'>"+item.nombre+"</label>"+
                 "</div>"+
                 "</div>"+
-                "<div class='col-md-4 col-4 col-xs-offset-2 col-md-offset-0 col-xs-10'>"+
-                "<input style='display:none' class='form-control' name='frecuencia[]' id='fre_"+item.id_curso+"' "+
-                "type='text' disabled='disabled' "+
-                "value='"+item.frecuencia+"' >"+ 
-                "</div>"+
-                "<div class='col-md-5 col-5 col-xs-offset-2 col-md-offset-0 col-xs-10'>"+
+                "<div class='col-md-9 col-5 col-xs-offset-1 col-md-offset-0 col-xs-10'>"+
                 "<select style='display:none' "+
                 "class='form-control form-select' id='curso_hora_"+item.id_curso+"' "+
                 "id='distrito'"+
@@ -55,9 +50,9 @@ function BuscarCursos(selectObject) {
                         //var b = JSON.parse(data);
                         //var cont = 0;
                         //$('#li'+item.idcategory).append('<ul class="treeview-menu" id="ul'+item.idcategory+'">');
-                        $('#curso_hora_'+item.id_curso).append('<option value="">:: Horarios | Edades ::</option>');
+                        $('#curso_hora_'+item.id_curso).append('<option value="">:: Frecuencia | Horarios | Edades ::</option>');
                         $.each(data,function(v,value){
-                            $('#curso_hora_'+item.id_curso).append('<option value="'+value.id_horario+'">'+value.horario+" | "+value.edades+  '</option>');
+                            $('#curso_hora_'+item.id_curso).append('<option value="'+value.id_horario+'">'+item.frecuencia+" | "+value.horario+" | "+value.edades+  '</option>');
                             //cont++;
                         });
                     },
@@ -74,14 +69,11 @@ function BuscarCursos(selectObject) {
     
 function ActiveHorario(selectObject) {
     var idcurso = selectObject.value;
-    var x = document.getElementById("fre_"+idcurso);
     var y = document.getElementById("curso_hora_"+idcurso);
-    if (x.style.display === "none" || y.style.display === "none") {
-        x.style.display = "block";
+    if (y.style.display === "none") {
         y.style.display = "block";
         y.setAttribute("name", "horario[]");
     } else {
-        x.style.display = "none";
         y.style.display = "none";
         y.setAttribute("name", "");
     }

@@ -4,35 +4,16 @@ use App\Middleware\GuestMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 $app->get('/', 'HomeController:index')->setName('home');
+$app->get('/registro', 'HomeController:getViewRegistro')->setName('registro');
+$app->get('/escuelas-deportivas', 'HomeController:getViewEscuelas')->setName('escuelas');
+
 $app->get('/en', 'HomeController:english')->setName('english');
 $app->get('/casas', 'HomeController:casas')->setName('casas');
 $app->get('/listaollas', 'OllasController:getListOllas');
 $app->get('/listacasas', 'OllasController:getListCasasComunales');
 $app->get('/ollas', 'HomeController:index')->setName('home');
-//Estadísticas
-$app->get('/generadormapa', 'EstadisticasController:GeneradorMapa');
-$app->get('/racionestotalesgeorreferenciadas', 'EstadisticasController:RacionesTotalesGeorreferenciadas');
-$app->get('/ollastotalesgeorreferenciadas', 'EstadisticasController:OllasTotalesGeorreferenciadas');
-$app->get('/ollastotalesatendidas', 'EstadisticasController:OllasTotalesAtendidas');
-$app->get('/racionestotalesatendidas', 'EstadisticasController:RacionesTotalesAtendidas');
-$app->get('/ollas-estadisticas', 'EstadisticasController:getViewGeoMap')->setName('geomap');
-$app->get('/ollas-georeferenciado', 'EstadisticasController:getViewGeoreferencio')->setName('georeferenciado');
-$app->get('/ollas-atendidas', 'EstadisticasController:getViewAtendidas')->setName('atendidas');
-$app->get('/ollasatendidaspordistrito', 'EstadisticasController:ollasatendidaspordistrito');
-$app->get('/ollasatendidas', 'EstadisticasController:ollasatendidas');
-$app->get('/top5distritos', 'EstadisticasController:top5distritos');
-$app->get('/top5distritosatendidos', 'EstadisticasController:Top5distritosatendidos');
-$app->get('/racionespordistrito', 'EstadisticasController:racionespordistrito');
-$app->get('/preciopromedio', 'EstadisticasController:PrecioPromedio');
-$app->get('/top5distritosgeo', 'EstadisticasController:Top5distritosgeo');
-$app->get('/accesoagua', 'EstadisticasController:AccesoAgua');
-$app->get('/accesoluz', 'EstadisticasController:AccesoLuz');
-$app->get('/beneficiarios', 'EstadisticasController:Beneficiarios');
-$app->get('/listaollascasas', 'OllasController:getListOllasCasas');
-$app->get('/req-casas', 'OllasController:getViewOllasCasas')->setName('ollascasas');
-$app->get('/editar', 'OllasController:getOlla');
-$app->post('/actualizar', 'OllasController:Actualizar');
-$app->get('/registro', 'OllasController:getViewRegistro')->setName('registro');
+
+
 $app->post('/registrar', 'OllasController:Registrar');
 $app->get('/registro-simple', 'OllasController:getViewRegistroSimple')->setName('registro-simple');
 $app->post('/registrar-simple', 'OllasController:RegistrarSimple');
@@ -48,6 +29,11 @@ $app->group('', function () {
     $this->post('/admin/auth', 'AdminController:postSignIn');
 })->add(new GuestMiddleware($container));
 $app->group('/admin', function () {
+    $this->get('/sedes', 'AdminController:getViewSedes')->setName('admin.sedes');
+    $this->get('/listar/sedes', 'SedesController:ListarSedes')->setName('admin.sedes');
+    $this->get('/editar/sedes', 'SedesController:EditarSedes');
+    $this->post('/registrar/sedes', 'SedesController:RegistrarSedes');
+
     $this->get('/export', 'ExportController:ExporTotal');
     $this->get('/export-des', 'ExportController:ExporDesactivadas');
     $this->get('/export-nuevas', 'ExportController:ExporNuevas');
@@ -75,4 +61,22 @@ $app->group('/admin', function () {
     $this->get('/organizaciones/editar', 'ArticuloController:getArticulo');
     $this->get('/junta/lista', 'OllasController:getMiembro');
     $this->post('/junta/registrar', 'OllasController:RegistrarJunta');
+
+    $this->get('/disciplinas/{cod}', 'CursosController:GetViewCursoxSede');
+    $this->get('/horarios/listar', 'HorariosController:GetHorarios');
+    $this->get('/horarios/editar', 'HorariosController:EditarHorario');
+    $this->post('/horarios/registrar', 'HorariosController:Registrar');
+
+    $this->get('/inscripciones', 'AdminController:getViewInscripciones')->setName('admin.inscripciones');
+    $this->get('/participantes', 'AdminController:getViewParticipantes')->setName('admin.participantes');
+    $this->get('/listar/sede/admnistrador', 'SedesController:ListarSedesXAdministrador')->setName('admin.sedes_administrador');
+    
+    $this->get('/inscripciones/{cod}', 'ParticipantesController:GetViewInscripcionesxSede');
+    $this->get('/inscripciones/listar/', 'ParticipantesController:ListarInscripciones');
+    $this->get('/inscripcion/editar', 'ParticipantesController:Inscripcion');
+    $this->post('/inscripcion/procesar', 'ParticipantesController:ProcesarInscripcion');
+
+    $this->get('/curso/editar', 'CursosController:EditarCursos');
+    $this->post('/curso/registrar', 'CursosController:RegistrarCursos');
+
 })->add(new AuthMiddleware($container));

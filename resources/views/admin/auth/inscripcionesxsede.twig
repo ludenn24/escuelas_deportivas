@@ -1,0 +1,385 @@
+{% extends 'admin/templates/app.twig' %}
+{% block content %}
+    <body class="hold-transition skin-blue sidebar-mini ">
+        <div class="pace  pace-inactive">
+            <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+                <div class="pace-progress-inner"></div>
+            </div>
+            <div class="pace-activity"></div>
+        </div>
+        <div class="wrapper">
+
+            <header class="main-header">
+                {% include 'admin/templates/head.twig' %}
+            </header>
+
+            <aside class="main-sidebar">
+                {% include 'admin/templates/menu.twig' %}
+            </aside>
+
+            <div class="content-wrapper">
+                <section class="content-header">
+                    <h1>
+                        {{ data_sede.nombre }}
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-book"></i> [Lista de sedes]</a></li>
+                    </ol>
+                </section>
+                <section class="content">
+                
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="box">
+                                <div class="box-body">
+                                
+                                    <table id="sedes" class="table table-striped table-bordered nowra" width="100%">
+                                        <thead>
+                                            <tr class="heading-table">
+                                                <th>DNI</th>
+                                                <th>Nombres</th>
+                                                <th>Apellido paterno</th>
+                                                <th>Apellido materno</th>
+                                                <th>Disciplina</th>
+                                                <th>Frecuencia</th>
+                                                <th>Horario</th>
+                                                <th>Edades</th>
+                                                <th>Estado de pago</th>
+                                                <th>Fec. Inicio</th>
+                                                <th>Fec. Fin</th>
+                                                <th>Procesar</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="modal fade" id="modalSede" tabindex="-1" role="dialog" aria-labelledby="modalSede">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header modalert">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <h4 class="modal-title modtitle">[ Procesar Inscripción ]</h4>
+                        </div>
+                        <div class="modal-body">
+                        <div class="row">
+
+                                    <form class="bg-w-form form" method="post" autccomplete="off" id="FormActualizarInscripcion" name="FormActualizarInscripcion">
+                                    <input type="hidden" name="accion" id="accion" value="">
+                                    <input type="hidden" name="codigo" id="codigo" value="" >
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label form-label">Nombre <span class="highlight">*</span></label>
+                                        <input type="text" id="nombre" name="nombre" disabled class="form-control form-input">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label form-label">Apellido parterno</label>
+                                        <input type="text" id="ape_paterno" name="ape_paterno" disabled class="form-control form-input">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label form-label">Apellido marterno</label>
+                                        <input type="text" id="ape_materno" name="ape_materno" disabled class="form-control form-input">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label form-label">Fecha de nacimiento</label>
+                                        <input type="text" id="fecha_nac" name="nomfecha_nacbre" disabled class="form-control form-input">
+                                    </div>
+                                    
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label form-label">Edad</label>
+                                        <input type="text" id="edad" name="edad" disabled class="form-control form-input">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label form-label">Tipo de documento</label>
+                                        <input type="text" id="tipo_documento" name="tipo_documento" disabled class="form-control form-input">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label form-label">Número de documento</label>
+                                        <input type="text" id="dni" name="dni" disabled class="form-control form-input">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label form-label">Condición Médica</label>
+                                        <input type="text" id="condicion_medica" name="condicion_medica" disabled class="form-control form-input">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label form-label">Fecha de inicio<span class="highlight">*</span></label>
+                                        <input type="date" id="inicio" name="inicio" class="form-control form-input">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label form-label">Fecha de término<span class="highlight">*</span></label>
+                                        <input type="date" id="fin" name="fin" class="form-control form-input">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label form-label">Número de recibo<span class="highlight">*</span></label>
+                                        <input type="text" id="num_pago" name="num_pago" class="form-control form-input">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label class="control-label form-label">Estado<span
+                                                class="highlight">*</span>
+                                        </label>
+                                        <select class="form-control form-select obligate" id="estado" name="estado" data-content="Usted debe seleccionar el estado.">
+                                            <option value="1">Pendiente</option>
+                                            <option value="2">Pagado</option>
+                                        </select>
+                                    </div>
+                        
+                                {{ csrf.field | raw }}
+
+                            </form>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa fa-remove"></i> Cancelar</button>
+                            <button type="button" class="btn btn-success guardarinscripcion">Guardar</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+
+            function Evaluar(codigo) {
+                var codigo = codigo;
+                $('#modalSede').modal('show');
+                $('#codigo').val(codigo);
+                $('#accion').val('editar');
+                return $.ajax({
+                    type: "get",
+                    url: '{{ base_url() }}/admin/inscripcion/editar',
+                    data: {
+                        codigo: codigo
+                    },
+                    success: function (data) {
+                        $.each(data, function (i, item) {
+                            $('#id').val(item.id_inscripcion),
+                            $('#nombre').val(item.nombres),
+                            $('#ape_paterno').val(item.ape_paterno),
+                            $('#ape_materno').val(item.ape_materno),
+                            $('#fecha_nac').val(item.fecha_nac),
+                            $('#tipo_documento').val(item.tipo_documento),
+                            $('#dni').val(item.dni),
+                            $('#edad').val(item.edad),
+                            $('#condicion_medica').val(item.condicion_medica),
+                            $('#inicio').val(item.inicio),
+                            $('#fin').val(item.fin),							$('#num_pago').val(item.num_pago),
+                            $('#estado').val(item.estado),
+                            $('#recibo').val(item.recibo)                   
+                            });
+                    },
+                    error: function () {
+                    }
+                });
+            }
+
+            $(document).ready(function () {
+                ListaInscripciones();
+                $(".cogepx").on("click", function () {
+                    var valor = $(this).data('codigo');
+                    $('.foto').val(valor);
+                });
+                $('.dropify-es').dropify({
+                    messages: {
+                        default: 'Arrastra y suelta un archivo aquí o haz clic',
+                        replace: 'Arrastre y suelte un archivo o haga clic para reemplazar',
+                        remove: 'Suprimir',
+                        error: 'Lo sentimos, el archivo es demasiado grande'
+                    }
+                });
+                var drEvent = $('#input-file-events').dropify();
+                drEvent.on('dropify.beforeClear', function (event, element) {
+                    return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+                });
+                drEvent.on('dropify.afterClear', function (event, element) {
+                    alert('File deleted');
+                });
+                drEvent.on('dropify.errors', function (event, element) {
+                    console.log('Has Errors');
+                });
+                var drDestroy = $('#input-file-to-destroy').dropify();
+                drDestroy = drDestroy.data('dropify')
+                $('#toggleDropify').on('click', function (e) {
+                    e.preventDefault();
+                    if (drDestroy.isDropified()) {
+                        drDestroy.destroy();
+                    } else {
+                        drDestroy.init();
+                    }
+                })
+            })
+
+            var childRows = null;
+
+            function ListaInscripciones() {
+
+                $.fn.dataTable.moment('M/D/YYYY h:m:s A');
+                var dt = $('#sedes').DataTable({
+                    responsive: true,
+                    destroy: true,
+                    "order": [],
+                    "language": {
+                        "lengthMenu": "Ver _MENU_ registros por página",
+                        "zeroRecords": "No se encontraron resultados",
+                        "info": "Viendo página _PAGE_ de _PAGES_",
+                        "infoEmpty": "No se encontraron registros",
+                        "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "search": "Buscar:",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Último",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        },
+                    },
+                    "ajax": {
+                            "type": "get",
+                            "url": "{{ base_url() }}/admin/inscripciones/listar/",
+                            "data": {codigo:  {{ data_sede.id_sede }} },
+                            },
+                    "columns": [
+                        {"data": "dni"},
+                        {"data": "nombres"},
+                        {"data": "ape_paterno"},
+                        {"data": "ape_materno"},
+                        {"data": "nom_curso"},
+                        {"data": "frecuencia"},
+                        {"data": "horario"},
+                        {"data": "edades"},
+                        {
+                            "data": "estado",
+                            render: function (data) {
+                                if (data == "1") {
+                                    return "<span class='label label-warning'>Pendiente</span>";
+                                } else {
+                                    return "<span class='label label-success'>Pagado</span>";
+                                } 
+                            },
+                        },
+                        {"data": "inicio"},
+                        {"data": "fin"},
+                        {
+                            "data": "id_inscripcion",
+                            render: function (data) {
+                                return "<a class='btn btn-default'" +
+                                        "style='cursor:pointer;overflow: visible;'" +
+                                        "onclick='Evaluar(" + data + ")'" +
+                                        "data-toggle='modal'" +
+                                        "data-content=''>" +
+                                        "<i class='fa fa-eye'></i></a>"
+                            },
+                        },
+                    ],
+                });
+            }
+
+            //Nueva noticia
+            function nuevasede() {
+                var tipo = 1;
+                $('#modalSede').modal('show');
+                $("#FormActualizarInscripcion")[0].reset();
+                $("#seccionfoto").css("display", "none");
+                $('#accion').val('nuevo');
+            }
+
+            function grabarInscripcion() {
+                var formData = new FormData($("#FormActualizarInscripcion")[0]);
+                var resultado = "";
+                $.ajax({
+                    url: "{{ base_url() }}/admin/inscripcion/procesar",
+                    async: false,
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    dataType: 'json',
+                    success: function (datos) {
+                        resultado = datos.response;
+                        mensaje = datos.message;
+                    }
+                });
+                return [resultado, mensaje];
+            }
+
+
+            $(".guardarinscripcion").on("click", function (event) {
+
+                event.preventDefault();
+
+                var accion = $('#accion').val();
+                var inicio = $('#inicio').val();
+                var fin = $('#fin').val();
+                var estado = $('#estado').val();
+
+                if (inicio == "") {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '¡Advertencia!',
+                        text: 'Debe imgresar la fecha de inicio de inscripción.',
+                    })
+                } else {
+                    if (fin == "") {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: '¡Advertencia!',
+                            text: 'Debe imgresar la fecha de término de inscripción.',
+                        })
+                    } else {
+                        if (estado == "") {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: '¡Advertencia!',
+                                text: 'Debe ingresar el número de edición.',
+                            })
+                        } else {
+                            Swal.fire({
+                                title: 'Está seguro?',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Sí, guardar!'
+                            }).then((result) => {
+                                if (result.value) {
+                                    var resp = grabarInscripcion();
+                                    if (resp[0] == "success") {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: '¡Éxito!',
+                                            text: resp[1],
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                $('#modalSede').modal('hide');
+                                                ListaInscripciones();
+                                            }
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: '¡Error!',
+                                            text: resp[1],
+                                        })
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
+            });
+        </script>
+
+    {% endblock content %}

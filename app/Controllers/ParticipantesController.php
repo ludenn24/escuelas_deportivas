@@ -6,6 +6,7 @@ use App\Helper\JsonRenderer;
 use App\Models\Participantes;
 use App\Models\Inscripciones;
 use App\Controllers\Controller;
+use App\Models\Sedes;
 use Illuminate\Database\Capsule\Manager as DB;
 use Respect\Validation\Validator as v;
 
@@ -40,7 +41,8 @@ public function Registrar($request, $response, $args) {
             'silla'=> $request->getParam('silla'),
             'tipo_discapacidad'=> $request->getParam('tipo_discapacidad'),
         ])->id;
-
+        
+        $centro = $request->getParam('centro');
         $curcurso = $request->getParam('curso');
         $curhorario = $request->getParam('horario');
         $cursconvo = $request->getParam('horario');
@@ -48,9 +50,9 @@ public function Registrar($request, $response, $args) {
         foreach ($curhorario as $key => $value) { 
             if (isset($value) && !empty($value)) {
                 $input['id_participante'] = $lastid;
-                $input['id_curso'] = $curhorario[$key];
+                $input['id_sede'] = $centro;
                 $input['id_horario'] = $curhorario[$key];
-                $input['id_convocatoria'] = $cursconvo[$key];
+                $input['id_convocatoria'] = $curcurso[$key];
                 Inscripciones::create($input);
             }
           }
@@ -65,6 +67,95 @@ public function Registrar($request, $response, $args) {
         $mensaje['message'] = 'Ocurrió un error, inténtelo nuevamente';
         echo json_encode($mensaje);
     }
+}   
+
+public function GetViewInscripcionesxSede($request, $response, $args)
+{
+    try {
+        $sede = $args['cod'];
+        $data_sede = Sedes::where('id_sede',$sede)->first();
+        return $this->view->render($response, 'admin/auth/inscripcionesxsede.twig',[
+            'data_sede' => $data_sede
+        ]);
+    } catch (ErrorException $e) {
+        $data = "Hubo un error al listar los datos.";
+        return $this->response->withJson($data, 200);
+    }
 }
+
+
+public function ListarInscripciones($request, $response, $args) {
+    try {
+        $sede = $request->getParam('codigo');
+        $data = Inscripciones::select('tb_participantes.dni',
+        'tb_participantes.nombres',
+        'tb_participantes.ape_paterno',
+        'tb_participantes.ape_materno',
+        'tb_inscripciones.estado',
+        'tb_inscripciones.inicio',
+        'tb_inscripciones.fin',
+        'tb_inscripciones.id_inscripcion',
+        'tb_cursos.nombre as nom_curso',
+        'tb_cursos.frecuencia',
+        'tb_horarios.horario',
+        'tb_horarios.edades')
+        ->join('tb_participantes', 'tb_inscripciones.id_participante', '=', 'tb_participantes.id_participante')
+        ->join('tb_horarios', 'tb_inscripciones.id_horario', '=', 'tb_horarios.id_horario')
+        ->join('tb_cursos', 'tb_horarios.id_curso', '=', 'tb_cursos.id_curso')
+        ->where('tb_inscripciones.id_sede', $sede)
+        ->get();
+        $arreglo["data"] = $data;
+        return $this->response->withJson($arreglo);
+    } catch (ErrorException $e) {
+        $data = "Hubo un error al listar los datos.";
+        return $this->response->withJson($data, 500);
+    }
+}
+
+public function Inscripcion($request, $response, $args) {
+    try {
+        $sede = $request->getParam('codigo');
+        $data = Inscripciones::select('tb_participantes.dni',
+        'tb_participantes.nombres',
+        'tb_participantes.ape_paterno',
+        'tb_participantes.ape_materno',
+        'tb_participantes.fecha_nac',
+        'tb_participantes.tipo_documento',
+        'tb_participantes.dni',
+        'tb_participantes.edad',
+        'tb_participantes.condicion_medica',
+        'tb_inscripciones.estado',
+        'tb_inscripciones.inicio',
+        'tb_inscripciones.fin',
+        'tb_inscripciones.recibo',
+        'tb_inscripciones.id_inscripcion',
+        'tb_cursos.nombre as nom_curso',
+        'tb_cursos.frecuencia',
+        'tb_horarios.horario',
+        'tb_horarios.edades')
+        ->join('tb_participantes', 'tb_inscripciones.id_participante', '=', 'tb_participantes.id_participante')
+        ->join('tb_horarios', 'tb_inscripciones.id_horario', '=', 'tb_horarios.id_horario')
+        ->join('tb_cursos', 'tb_horarios.id_curso', '=', 'tb_cursos.id_curso')
+        ->where('tb_inscripciones.id_inscripcion', $sede)
+        ->get();
+         return $this->response->withJson($data, 200);
+    } catch (ErrorException $e) {
+        $data = "Hubo un error al listar los datos.";
+        return $this->response->withJson($data, 500);
+    }
+}
+
+public function ProcesarInscripcion($request, $response, $args) {
+        $codigo = $request->getParam('codigo');
+        Inscripciones::where('id_inscripcion', '=', $codigo)->update([
+            'inicio' => $request->getParam('inicio'),
+            'fin' => $request->getParam('fin'),
+            'recibo' => $request->getParam('recibo'),
+            'estado' => $request->getParam('estado'),
+        ]);
+        $mensaje['response'] = 'success';
+        $mensaje['message'] = 'Registro guardado';
+        echo json_encode($mensaje);
+    }
 
 }

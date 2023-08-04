@@ -39,6 +39,10 @@ $container['view'] = function ($container){
         'sedes' => $container->SedesController->getSedes(),
     ]);
 
+    $view->getEnvironment()->addGlobal('AdminController', [
+        'admin' => $container->AdminController->admin(),
+    ]);
+
     return $view;
 };
 

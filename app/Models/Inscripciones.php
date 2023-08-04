@@ -15,6 +15,10 @@ class Inscripciones extends Model
         'id_horario',
         'id_convocatoria',
         'id_participante',
+        'id_sede',
+        'inicio',
+        'fin',
+        'recibo',
         'estado',
         'created_at',
         'updated_at'

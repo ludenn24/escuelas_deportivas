@@ -1,0 +1,726 @@
+{% extends 'admin/templates/app.twig' %}
+
+{% block content %}
+
+<body class="hold-transition skin-blue sidebar-mini ">
+
+   <div class="pace  pace-inactive">
+
+      <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+
+         <div class="pace-progress-inner"></div>
+
+      </div>
+
+      <div class="pace-activity"></div>
+
+   </div>
+
+   <div class="wrapper">
+
+   <header class="main-header">
+
+      {% include 'admin/templates/head.twig' %}
+
+   </header>
+
+   <aside class="main-sidebar">
+
+      {% include 'admin/templates/menu.twig' %}
+
+   </aside>
+
+   <div class="content-wrapper">
+
+
+
+      <section class="content-header">
+
+         <h1 id="tipodease">
+
+            {{data_sede.nombre}}
+
+         </h1>
+
+         <ol class="breadcrumb">
+
+            <li><a href="#"><i class="fa fa-book"></i> [Lista de sedes]</a></li>
+
+         </ol>
+
+      </section>
+
+
+
+      <section class="content">
+
+
+
+         <div class="row">
+
+            <div class="col-xs-12">
+
+               <div class="box">
+
+                  <div class="box-body">
+
+                     <div class="margin">
+
+                        <div class="btn-group">
+
+                           <button onclick="nuevocurso()" type="button" class="btn btn-block btn-primary btn-flat">AGREGAR</button>
+
+                        </div>
+
+                     </div>
+
+                  </div>
+
+               </div>
+
+            </div>
+
+            <div class="col-xs-12">
+
+                <div class="box">
+
+                <div class="box-header">
+
+                    <div class="col-xs-6">
+
+                        <h2 class="page-header">
+
+                            <i class="fa fa-globe"></i>
+
+                            Disciplinas
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+                <div class="box-body">
+
+                    <div class="col-md-12 table-responsive">
+                        <table id="example" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Disciplina</th>
+                                <th>Frecuencia</th>
+                                <th>Horarios</th>
+                                <th>Docente</th>
+                                <th>Cupos</th>
+                                <th>Estado</th>
+                                <th>Editar</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for cursos in data_cursos %}
+                            <tr>
+                                <td>
+                                    {{ cursos.nombre }}
+                                </td>
+                                <td>
+                                    {{ cursos.frecuencia }}
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary"
+                                        style="cursor:pointer;overflow: visible;"
+                                        data-target="#AgregarHorarios"
+                                        data-toggle="modal"
+                                        data-codigo="{{ cursos.id_curso }}"
+                                        data-disciplina="{{ cursos.nombre }}">
+                                    <i class="fa fa-clock-o"></i>
+                                    </a>
+                                </td>
+                                 <td>
+                                    {{ cursos.docente }}
+                                </td>
+                                <td>
+                                    {{ cursos.cupos }}
+                                </td>
+                                <td>
+                                    {% if cursos.estado == 1 %}
+                                    <span class="label label-success">Activado</span>
+                                    {% elseif cursos.estado == 2 %}
+                                    <span class="label label-warning">Desactivado</span>
+                                    {% else %}
+                                    <span class='label label-danger'>Eliminado</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+
+                                    <a class="btn btn-default"
+                                        style="cursor:pointer;overflow: visible;"
+                                        onclick="EditarCurso({{ cursos.id_curso }})"
+                                        data-toggle="modal"
+                                        data-content="">
+                                        Editar
+                                    </a>
+                                </td>
+                            <tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                </div>
+
+            </div>
+
+      </section>
+
+   </div>
+
+
+
+   <div class="modal fade" id="AgregarHorarios" tabindex="-1" role="dialog" aria-labelledby="AgregarHorarios">
+
+      <div class="modal-dialog" role="document">
+
+         <div class="modal-content">
+
+            <div class="modal-header mod">
+
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+               <span aria-hidden="true" style="color:#fff;">&times;</span></button>
+
+               <h4 class="modal-title modtitle" id="AgregarHorarios">
+
+                  <strong>cargando...</strong>
+
+               </h4>
+
+            </div>
+
+            <div class="modal-body">
+
+               <div class="box-body row">
+
+                  <div class="col-md-12">
+
+                     <div class="col-md-12">
+
+                        <div class="box">
+
+                           <div class="box-body">
+
+                              <div class="margin">
+
+                                 <div class="btn-group">
+
+                                    <button onclick="NuevoHorario()" type="button" class="btn btn-block btn-success btn-flat">Nuevo horario</button>
+
+                                 </div>
+
+                              </div>
+
+                           </div>
+
+                        </div>
+
+                     </div>
+
+                  </div>
+
+                  <div class="col-sm-12">
+
+                     <div class="form-group">
+
+                        <form name="horario_form" id="horario_form" method="post" enctype="multipart/form-data">
+
+                           <input type="hidden"  name="codigo" id="codigo" value="">
+
+                           <input type="hidden"  name="cod_curso" id="cod_curso" value="">
+
+                           <div class="col-sm-6">
+                              <div class="form-group">    
+                                 <label>Horario</label>
+                                 <input type="text" name="horario" id="horario" class="form-control" value="">                                            
+                              </div>
+                           </div>
+
+                           <div class="col-sm-6">
+                              <div class="form-group">
+                                 <label>Edades</label>
+                                 <input type="text" name="edades" id="edades" class="form-control" value="">                                            
+                              </div>
+                           </div>
+
+                           <div class="col-sm-6">
+                              <div class="form-group">
+                                 <label>Consideraciones</label>
+                                 <input type="text" name="consideraciones" id="consideraciones" class="form-control" value="">                                            
+                              </div>
+                           </div>
+
+                           <div class="col-sm-6" id="seccionestado">
+                              <div class="form-group">
+                                 <label>Estado</label>
+                                 <select id="estado_horario" name="estado_horario" value="" class="form-control">
+                                    <option  value="">:: seleccionar ::</option>
+                                    <option selected value="1">Activar</option>
+                                    <option value="2">Desactivar</option>
+                                    <option value="3">Eliminar</option>
+                                 </select>
+                              </div>
+                           </div>
+
+                           <div class="col-sm-12">
+
+                              <div class="box">
+
+                                 <div class="box-header with-border">
+
+                                    <h3 class="box-title">Horarios y edades del curso</h3>
+
+                                 </div>
+
+                                 <div class="box-body">
+
+                                    <table id="DetalleHorarios" class="table table-bordered display compact" width="100%">
+
+                                       <thead>
+
+                                          <tr class="heading-table">
+                                             <th>Edades</th>
+                                             <th>Horario</th>
+                                             <th>Consideraciones</th>
+                                             <th>Estado</th>
+                                             <th></th>
+                                          </tr>
+
+                                       </thead>
+
+                                    </table>
+
+                                 </div>
+
+                              </div>
+
+                           </div>
+
+                           {{ csrf.field | raw }}
+
+                        </form>
+
+                     </div>
+
+                     <div  class="msg"></div>
+
+                  </div>
+
+               </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
+               <button type="button" data-loading-text="Guardando..." class="btn btn-success guardarhorario" autocomplete="off">Guardar</button>
+
+            </div>
+
+         </div>
+
+      </div>
+
+   </div>
+
+
+
+    <div class="modal fade" id="modalcurso" tabindex="-1" role="dialog" aria-labelledby="modalcurso">
+
+        <div class="modal-dialog" role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header modalert">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+
+                    <h4 class="modal-title modtitle">[ EDITAR CURSO ]</h4>
+
+                </div>
+
+                <div class="modal-body">
+
+                    
+
+                    <form class="bg-w-form form" method="post" autccomplete="off" id="FormActualizarCurso" name="FormActualizarCurso">
+
+                            <input type="hidden" name="accion" id="accion" value="">
+
+                            <input type="hidden" name="codigo_sede" id="codigo_sede" value="{{data_sede.id_sede}}" >
+
+                            <input type="hidden" name="codigo_curso" id="codigo_curso" value="" >
+
+
+
+                                <div class="form-group">
+
+                                    <label class="control-label form-label">Disciplina <span
+
+                                            class="highlight">*</span></label>
+
+                                    <input type="text" placeholder="Ingrese una disciplina"
+
+                                            id="nombre" name="nombre"
+
+                                            class="form-control form-input obligate"
+
+                                            data-content="Usted debe ingresar una disciplina."
+
+                                            value="">
+
+                                </div>
+
+                        
+
+                                <div class="form-group">
+
+                                    <label class="control-label form-label">Docente <span
+
+                                            class="highlight">*</span></label>
+
+                                    <input type="text" placeholder="Ingrese el nombre del docente"
+
+                                            id="docente" name="docente"
+
+                                            class="form-control form-input obligate"
+
+                                            data-content="Usted debe ingresar el nombre del docente."
+
+                                            value="">
+
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <label class="control-label form-label">Frecuencia<span class="highlight">*</span></label>
+                                    <select class="form-control form-select obligate" id="frecuencia" name="frecuencia"
+                                            data-content="Usted debe seleccionar la frecuencia del curso.">
+                                        <option value="L-Mi">L-Mi</option>
+										<option value="L-Mi-V">L-Mi-V</option>
+										<option value="L-Mi-V-S">L-Mi-V-S</option>
+										<option value="L-V-S">L-V-S</option>
+										<option value="Ma-J">Ma-J</option>
+                                        <option value="Ma-J-S">Ma-J-S</option>
+										<option value="Mi-J">Mi-J</option>
+                                        <option value="Mi-V">Mi-V</option>
+										<option value="J">J</option>
+										<option value="J-S">J-S</option>
+                                        <option value="V-S">V-S</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label form-label">Cupos <span class="highlight">*</span></label>
+                                    <input type="number" placeholder="Ingrese la cantidad de cupos"
+                                            id="cupos" name="cupos"
+                                            class="form-control form-input obligate"
+                                            data-content="Usted debe ingresar la cantidad de cupos disponibles."
+                                            value="">
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label class="control-label form-label">Estado<span
+
+                                            class="highlight">*</span>
+
+                                    </label>
+
+                                    <select class="form-control form-select obligate" id="estado"
+
+                                            name="estado"
+
+                                            data-content="Usted debe seleccionar el estado.">
+
+                                        <option value="1">Activado</option>
+
+                                        <option value="2">Desactivado</option>
+
+                                        <option value="3">Eliminado</option>
+
+                                    </select>
+
+                                </div>
+
+                    
+
+                                <div class="form-group">
+
+                                    <div class="msg"></div>
+
+                                </div>
+
+
+
+                        {{ csrf.field | raw }}
+
+
+
+                    </form>
+
+                
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><i class="fa  fa-remove"></i> Cancelar</button>
+
+                    <button type="button" class="btn btn-success guardarcurso">Guardar</button></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+        
+
+    <script>
+
+
+
+        function nuevocurso() {
+
+            var tipo = 1;
+
+            $('#modalcurso').modal('show');
+
+            $("#FormActualizarCurso")[0].reset();
+
+            $('#accion').val('nuevo');
+
+            $('#codigo_curso').val('');
+
+        }
+
+
+
+        function grabarcurso() {
+
+            var formData = new FormData($("#FormActualizarCurso")[0]);
+
+            var resultado = "";
+
+            $.ajax({
+
+                url: "{{ base_url() }}/admin/curso/registrar",
+
+                async: false,
+
+                type: 'POST',
+
+                data: formData,
+
+                contentType: false,
+
+                enctype: 'multipart/form-data',
+
+                processData: false,
+
+                dataType: 'json',
+
+                success: function (datos) {
+
+                    resultado = datos.response;
+
+                    mensaje = datos.message;
+
+                }
+
+            });
+
+            return [resultado, mensaje];
+
+        }
+
+
+
+        function EditarCurso(codigo) {
+
+            var codigo = codigo;
+
+            $('#modalcurso').modal('show');
+
+            $('#codigo_curso').val(codigo);
+
+            $('#accion').val('editar');
+
+            return $.ajax({
+
+                type: "get",
+
+                url: '{{ base_url() }}/admin/curso/editar',
+
+                data: {
+
+                    codigo: codigo
+
+                },
+
+                success: function (data) {
+
+                    $.each(data, function (i, item) {
+                        $('#codigo').val(item.id_curso),
+                        $('#nombre').val(item.nombre),
+                        $('#frecuencia').val(item.frecuencia),
+                        $('#docente').val(item.docente),
+                        $('#cupos').val(item.cupos),
+                        $('#estado').val(item.estado);
+                    });
+
+                },
+
+                error: function () {
+
+                }
+
+            });
+
+        }
+
+
+
+        $(".guardarcurso").on("click", function (event) {
+
+        event.preventDefault();
+
+        var accion = $('#accion').val();
+
+        var nombre = $('#nombre').val();
+
+        var frecuencia = $('#frecuencia').val();
+
+        var estado = $('#estado').val();
+
+        if (nombre == "") {
+
+            Swal.fire({
+
+                icon: 'warning',
+
+                title: '¡Advertencia!',
+
+                text: 'Debe ingresar el nombre de la disciplina.',
+
+            })
+
+        } else {
+
+            if (frecuencia == "") {
+
+                Swal.fire({
+
+                    icon: 'warning',
+
+                    title: '¡Advertencia!',
+
+                    text: 'Debe ingresar la frecuencia de la disciplina.',
+
+                })
+
+            } else {
+
+                if (estado == "") {
+
+                    Swal.fire({
+
+                        icon: 'warning',
+
+                        title: '¡Advertencia!',
+
+                        text: 'Debe seleccionar un estado.',
+
+                    })
+
+                } else {
+
+                    Swal.fire({
+
+                        title: '¿Está seguro?',
+
+                        icon: 'warning',
+
+                        showCancelButton: true,
+
+                        confirmButtonColor: '#3085d6',
+
+                        cancelButtonColor: '#d33',
+
+                        confirmButtonText: '¡Sí, guardar!'
+
+                    }).then((result) => {
+
+                        if (result.value) {
+
+                            var resp = grabarcurso();
+
+                            if (resp[0] == "success") {
+
+                                Swal.fire({
+
+                                    icon: 'success',
+
+                                    title: '¡Éxito!',
+
+                                    text: resp[1],
+
+                                }).then((result) => {
+
+                                    if (result.value) {
+
+                                        $('#modalcurso').modal('hide');
+
+                                        location.reload();
+
+                                    }
+
+                                });
+
+                            } else {
+
+                                Swal.fire({
+
+                                    icon: 'error',
+
+                                    title: '¡Error!',
+
+                                    text: resp[1],
+
+                                })
+
+                            }
+
+                        }
+
+                    })
+
+                }
+
+            }      
+
+        } 
+
+    });
+
+</script>
+
+
+
+{% endblock content %}
